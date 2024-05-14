@@ -1,3 +1,1 @@
-Frontend - ReactTS
-Backend - FastAPI
-Model - LLM
+Frontend - ReactTS | Backend - FastAPI | Model - LLM
