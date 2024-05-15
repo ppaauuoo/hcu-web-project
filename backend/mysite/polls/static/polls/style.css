@@ -1,0 +1,9 @@
+body {
+    background: red url("images/background.jpg") no-repeat;
+}
+
+li a {
+    color: green;
+    font-family: sans-serif;
+}
+
