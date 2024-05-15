@@ -1,10 +1,10 @@
-Frontend - ReactTS, Vite, ShadCDN
+Frontend - ReactTS - Framework, Vite - Build Tool, ShadCDN - Components Collection.
 <br> 
 
-Backend - Django as AUTH & Media Manager
+Backend - Django - Session Authentication, Wagtail - Headless Content Management System
 <br> 
 
 Database - PostgreSQL
 <br>
 
-Model - LLM
+Model - LLM Chatbot, Rule-based Chatbot
