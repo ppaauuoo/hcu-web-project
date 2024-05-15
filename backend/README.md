@@ -1,6 +1,6 @@
 project setup 
 1. ```pip install virtualenv```
-2. ```virtualenv venv```
+2. ```virtualenv venv --python=python3.9```
 3. ```source venv/Scripts/activate ```
 4. ```pip install -r requirements.txt```
 <br>
