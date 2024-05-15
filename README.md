@@ -1,7 +1,10 @@
 Frontend - ReactTS, Vite, ShadCDN
 <br> 
 
-Backend - FastAPI | Django
+Backend - Django as AUTH & Media Manager
 <br> 
+
+Database - PostgreSQL
+<br>
 
 Model - LLM
