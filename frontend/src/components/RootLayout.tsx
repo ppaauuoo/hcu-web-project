@@ -80,13 +80,37 @@ export default function RootLayout(){
             to="#"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            Customers
+            การเรียนการสอน
           </Link>
           <Link
             to="#"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            Analytics
+            การวิจัย
+          </Link>
+          <Link
+            to="#"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            บริการสิชาการ
+          </Link>
+          <Link
+            to="#"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            กิจการนักศึกษา
+          </Link>
+          <Link
+            to="#"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            กิจการนักศึกษา
+          </Link>
+          <Link
+            to="#"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            ติดต่อเรา
           </Link>
         </nav>
         <Sheet>
