@@ -88,6 +88,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "mysite.wsgi.application"
+
+# Auth
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
@@ -142,6 +144,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# Wagtail
 WAGTAIL_SITE_NAME = 'HCU Content Management System'
 WAGTAILADMIN_BASE_URL = 'http://HCMS.com'
 
@@ -151,6 +154,21 @@ WAGTAILADMIN_BASE_URL = 'http://HCMS.com'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# CORS headers
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
+
+# Security settings
+CSRF_COOKIE_SAMESITE = 'Strict'
+SESSION_COOKIE_SAMESITE = 'Strict'
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_HTTPONLY = True
+
+# For production, set this line to True
+# CSRF_COOKIE_HTTPONLY = True
+
+# For production build
+STATICFILES_DIRS = (
+    BASE_DIR.joinpath('frontend', 'dist'),
+)
