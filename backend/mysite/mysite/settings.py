@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     "accounts",
+    "blog",
 ]
 
 MIDDLEWARE = [
@@ -169,6 +170,6 @@ SESSION_COOKIE_HTTPONLY = True
 # CSRF_COOKIE_HTTPONLY = True
 
 # For production build
-STATICFILES_DIRS = (
-    BASE_DIR.joinpath('frontend', 'dist'),
-)
+# STATICFILES_DIRS = (
+#     BASE_DIR.joinpath('frontend', 'dist'),
+# )

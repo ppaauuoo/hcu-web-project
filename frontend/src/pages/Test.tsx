@@ -25,6 +25,14 @@ export interface Data {
     download_url: string
   }
 
+  export interface PageMeta {
+    type: string
+    detail_url: string
+    html_url: string
+    slug: string
+    first_published_at: any
+  }
+  
 
 
 export default function Test(){
