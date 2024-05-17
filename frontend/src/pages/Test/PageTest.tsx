@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import axios from "axios";
-
+import parse from 'html-react-parser';
 const apiUrl = "http://localhost:8000";
 
 export interface Data {
@@ -60,43 +60,51 @@ export default function PageTest() {
 
   // This method fetches the records from the database.
   useEffect(() => {
-    axios.get(apiUrl + "/api/v2/pages/?type=blog.BlogPage&fields=title,date,intro,body,gallery_images").then(function (response) {
-      // handle success
-      console.log(response);
-      setData(response.data);
-    });
+    axios
+      .get(
+        apiUrl +
+          "/api/v2/pages/?type=blog.BlogPage&fields=title,date,intro,body,gallery_images"
+      )
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        setData(response.data);
+      });
   }, []);
 
   return (
     <>
-      {data ? (
-        <div>
-          <h1>Total Count: {data.meta.total_count}</h1>
-          <h2>Items</h2>
-          {data.items.map((item) => (
-            <div key={item.id}>
-              <h3>{item.title}</h3>
-              <p>Date: {item.date}</p>
-              <p>Intro: {item.intro}</p>
-              {item.body}
-              <h4>Gallery Images</h4>
-              <div>
-                {item.gallery_images.map((image) => (
-                  <div key={image.id}>
-                    <img
-                      src={image.image.meta.detail_url}
-                      alt={image.caption}
-                    />
-                    <p>{image.caption}</p>
-                  </div>
-                ))}
+      <article className="prose lg:prose-xl">
+        <h1>Hello!</h1>
+        {data ? (
+          <div>
+            <h1>Total Count: {data.meta.total_count}</h1>
+            <h2>Items</h2>
+            {data.items.map((item) => (
+              <div key={item.id}>
+                <h3>{item.title}</h3>
+                <p>Date: {item.date}</p>
+                <p>Intro: {item.intro}</p>
+                {parse(item.body)}
+                <h4>Gallery Images</h4>
+                <div>
+                  {item.gallery_images.map((image) => (
+                    <div key={image.id}>
+                      <img
+                        src={`${apiUrl}${image.image.meta.download_url}`}
+                        alt={image.caption}
+                      />
+                      <p>{image.caption}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+            ))}
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </article>
     </>
   );
 }
