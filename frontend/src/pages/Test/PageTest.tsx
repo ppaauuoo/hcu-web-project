@@ -2,78 +2,101 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-const apiUrl = 'http://localhost:8000'
+const apiUrl = "http://localhost:8000";
+
 export interface Data {
-    meta: Meta
-    items: Item[]
-  }
-  
-  export interface Meta {
-    total_count: number
-  }
-  
-  export interface Item {
-    id: number
-    meta: PageMeta
-    title: string
-  }
+  meta: Meta;
+  items: Item[];
+}
 
+export interface Meta {
+  total_count: number;
+}
 
-  export interface PageMeta {
-    type: string
-    detail_url: string
-    html_url: string
-    slug: string
-    show_in_menus: boolean
-    seo_title: string
-    search_description: string
-    first_published_at: string
-    alias_of: any
-    parent: any
-  }
-  
+export interface Item {
+  id: number;
+  meta: Meta2;
+  title: string;
+  date: string;
+  intro: string;
+  body: string;
+  gallery_images: GalleryImage[];
+}
 
+export interface Meta2 {
+  type: string;
+  detail_url: string;
+  html_url: string;
+  slug: string;
+  first_published_at: string;
+}
 
-export default function PageTest(){
-    // Make a request for a user with a given ID
-    const [data, setData] = useState<Data | null>(null);
-  
+export interface GalleryImage {
+  id: number;
+  meta: Meta3;
+  image: Image;
+  caption: string;
+}
 
-    // This method fetches the records from the database.
-    useEffect(() => {
-      axios.get(apiUrl+'/api/v2/pages/')
-      .then(function (response) {
-        // handle success
-        console.log(response);
-        setData(response.data);
-      })
-    }, []);
+export interface Meta3 {
+  type: string;
+}
 
-    return (
-      <>
-        {data ? (
-          <div>
-            <p>Total Count: {data.meta.total_count}</p>
-            <ul>
-              {data.items.map(item => (
-                <li key={item.id}>
-                <p>Type: {item.meta.type}</p>
-                <p>Detail URL: {item.meta.detail_url}</p>
-                <p>HTML URL: {item.meta.html_url}</p>
-                <p>Slug: {item.meta.slug}</p>
-                <p>Show in Menus: {item.meta.show_in_menus ? 'Yes' : 'No'}</p>
-                <p>SEO Title: {item.meta.seo_title}</p>
-                <p>Search Description: {item.meta.search_description}</p>
-                <p>First Published At: {item.meta.first_published_at}</p>
-                <p>Alias Of: {item.meta.alias_of}</p>
-                <p>Parent: {item.meta.parent}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </>
-    );
-  }
+export interface Image {
+  id: number;
+  meta: Meta4;
+  title: string;
+}
+
+export interface Meta4 {
+  type: string;
+  detail_url: string;
+  download_url: string;
+}
+
+export default function PageTest() {
+  // Make a request for a user with a given ID
+  const [data, setData] = useState<Data | null>(null);
+
+  // This method fetches the records from the database.
+  useEffect(() => {
+    axios.get(apiUrl + "/api/v2/pages/?type=blog.BlogPage&fields=title,date,intro,body,gallery_images").then(function (response) {
+      // handle success
+      console.log(response);
+      setData(response.data);
+    });
+  }, []);
+
+  return (
+    <>
+      {data ? (
+        <div>
+          <h1>Total Count: {data.meta.total_count}</h1>
+          <h2>Items</h2>
+          {data.items.map((item) => (
+            <div key={item.id}>
+              <h3>{item.title}</h3>
+              <p>Date: {item.date}</p>
+              <p>Intro: {item.intro}</p>
+              {item.body}
+              <h4>Gallery Images</h4>
+              <div>
+                {item.gallery_images.map((image) => (
+                  <div key={image.id}>
+                    <img
+                      src={image.image.meta.detail_url}
+                      alt={image.caption}
+                    />
+                    <p>{image.caption}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </>
+  );
+}

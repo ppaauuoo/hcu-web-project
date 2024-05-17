@@ -17,6 +17,7 @@ from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
+from wagtail.api import APIField
 
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -45,6 +46,13 @@ class BlogPage(Page):
         InlinePanel("gallery_images", label="Gallery images"),
     ]
 
+    api_fields = [
+        APIField('date'),
+        APIField('intro'),
+        APIField('body'),
+        APIField('gallery_images'),
+    ]
+
 
 class BlogPageGalleryImage(Orderable):
     page = ParentalKey(
@@ -58,4 +66,9 @@ class BlogPageGalleryImage(Orderable):
     panels = [
         FieldPanel("image"),
         FieldPanel("caption"),
+    ]
+
+    api_fields = [
+        APIField('image'),
+        APIField('caption'),
     ]
