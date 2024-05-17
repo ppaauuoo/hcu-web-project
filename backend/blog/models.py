@@ -20,7 +20,6 @@ from wagtail.search import index
 
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
-
     content_panels = Page.content_panels + [FieldPanel("intro")]
 
 
