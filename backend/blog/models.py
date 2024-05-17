@@ -18,20 +18,39 @@ from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
 from wagtail.api import APIField
+from wagtail.rich_text import expand_db_html
+from wagtail_headless_preview.models import HeadlessMixin
 
-class BlogIndexPage(Page):
+from bs4 import BeautifulSoup
+
+API_URL = 'http://localhost:8000'
+
+class BlogIndexPage(HeadlessMixin,Page):
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [FieldPanel("intro")]
 
-
-# add this:
-
-
-
-class BlogPage(Page):
+class BlogPage(HeadlessMixin,Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
+    # body = StreamField([
+    #     ('paragraph', RichTextBlock()),
+    #     ('image', ImageChooserBlock()),
+    # ])
     body = RichTextField(blank=True)
+    
+    def get_api_representation(self, value):
+        # Use BeautifulSoup to modify image src
+        soup = BeautifulSoup(expand_db_html(value), 'html.parser')
+        for img in soup.find_all('img'):
+            src = img['src']
+            # Modify the src to include apiurl
+            apiurl = f"{API_URL}{src}"
+            img['src'] = apiurl
+        return str(soup)
+    
+    @property
+    def html_body(self):
+        return self.get_api_representation(self.body)
 
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
@@ -42,17 +61,15 @@ class BlogPage(Page):
         FieldPanel("date"),
         FieldPanel("intro"),
         FieldPanel("body"),
-        # Add this:
         InlinePanel("gallery_images", label="Gallery images"),
     ]
-
+    
     api_fields = [
         APIField('date'),
         APIField('intro'),
-        APIField('body'),
+        APIField('html_body'),
         APIField('gallery_images'),
     ]
-
 
 class BlogPageGalleryImage(Orderable):
     page = ParentalKey(
@@ -72,3 +89,5 @@ class BlogPageGalleryImage(Orderable):
         APIField('image'),
         APIField('caption'),
     ]
+
+

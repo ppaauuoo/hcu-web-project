@@ -16,6 +16,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+CLIENT_URL = 'http://localhost:5173'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -55,6 +57,7 @@ INSTALLED_APPS = [
     'corsheaders',
     "accounts",
     "blog",
+    "wagtail_headless_preview",
 ]
 
 MIDDLEWARE = [
@@ -156,7 +159,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CORS headers
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
+    CLIENT_URL,
 ]
 
 # Security settings
@@ -164,6 +167,16 @@ CSRF_COOKIE_SAMESITE = 'Strict'
 SESSION_COOKIE_SAMESITE = 'Strict'
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_HTTPONLY = True
+
+#preview
+WAGTAIL_HEADLESS_PREVIEW = {
+    "CLIENT_URLS": {
+        "default": CLIENT_URL+"/test/",
+    }, # defaults to an empty dict. You must at the very least define the default client URL.
+    "SERVE_BASE_URL": None,  # can be used for HeadlessServeMixin
+    "REDIRECT_ON_PREVIEW": False,  # set to True to redirect to the preview instead of using the Wagtail default mechanism
+    "ENFORCE_TRAILING_SLASH": False,  # set to False in order to disable the trailing slash enforcement
+}
 
 # For production, set this line to True
 # CSRF_COOKIE_HTTPONLY = True

@@ -19,7 +19,7 @@ export interface Item {
   title: string;
   date: string;
   intro: string;
-  body: string;
+  html_body: string;
   gallery_images: GalleryImage[];
 }
 
@@ -63,8 +63,9 @@ export default function PageTest() {
     axios
       .get(
         apiUrl +
-          "/api/v2/pages/?type=blog.BlogPage&fields=title,date,intro,body,gallery_images"
+          "/api/v2/pages/?type=blog.BlogPage&fields=title,date,intro,html_body,gallery_images"
       )
+      
       .then(function (response) {
         // handle success
         console.log(response);
@@ -79,25 +80,30 @@ export default function PageTest() {
         {data ? (
           <div>
             <h1>Total Count: {data.meta.total_count}</h1>
-            <h2>Items</h2>
             {data.items.map((item) => (
               <div key={item.id}>
                 <h3>{item.title}</h3>
                 <p>Date: {item.date}</p>
                 <p>Intro: {item.intro}</p>
-                {parse(item.body)}
-                <h4>Gallery Images</h4>
-                <div>
-                  {item.gallery_images.map((image) => (
-                    <div key={image.id}>
-                      <img
-                        src={`${apiUrl}${image.image.meta.download_url}`}
-                        alt={image.caption}
-                      />
-                      <p>{image.caption}</p>
-                    </div>
-                  ))}
-                </div>
+                {parse(item.html_body)}
+                {item.gallery_images.length > 0 && (
+                  <>
+                  <h4>Gallery Images</h4>
+                  <div>
+                    {item.gallery_images.map((image) => (
+                      <div key={image.id}>
+                        <img
+                          src={`${apiUrl}${image.image.meta.download_url}`}
+                          alt={image.caption}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  </>
+
+
+                )}
+
               </div>
             ))}
           </div>
