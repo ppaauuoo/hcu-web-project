@@ -1,116 +1,94 @@
-import { useEffect, useState } from "react";
+import parse from "html-react-parser";
+import { gql, useQuery } from "@apollo/client";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel";
 
-import axios from "axios";
-import parse from 'html-react-parser';
-const apiUrl = "http://localhost:8000";
-
-export interface Data {
-  meta: Meta;
-  items: Item[];
-}
-
-export interface Meta {
-  total_count: number;
-}
-
-export interface Item {
-  id: number;
-  meta: Meta2;
+interface Page {
+  id: string;
   title: string;
   date: string;
   intro: string;
-  html_body: string;
-  gallery_images: GalleryImage[];
+  htmlBody: string;
+  galleryImages: { id: string; image: { url: string }; caption: string }[];
+};
+
+interface Data {
+  pages: Page[];
 }
 
-export interface Meta2 {
-  type: string;
-  detail_url: string;
-  html_url: string;
-  slug: string;
-  first_published_at: string;
-}
+const GET_PAGES = gql`
+  query getPages {
+    pages {
+      ... on BlogPage {
+        title
+        date
+        intro
+        htmlBody
+        galleryImages {
+          image {
+            url
+            width
+            height
+          }
+          caption
+        }
+      }
+    }
+  }
+`;
 
-export interface GalleryImage {
-  id: number;
-  meta: Meta3;
-  image: Image;
-  caption: string;
-}
+function DisplayPages() {
+  const { loading, error, data } = useQuery<Data>(GET_PAGES);
 
-export interface Meta3 {
-  type: string;
-}
+  if (loading) return <p>Loading...</p>;
 
-export interface Image {
-  id: number;
-  meta: Meta4;
-  title: string;
-}
+  if (error) return <p>Error : {error.message}</p>;
 
-export interface Meta4 {
-  type: string;
-  detail_url: string;
-  download_url: string;
+  if (!data) return <p>Error : No Data</p>;
+
+  return data.pages.map(
+    ({ title, date, intro, htmlBody, galleryImages }) =>
+      title && (
+        <div key={title}>
+          <h3>{title}</h3>
+          <p>Date: {date}</p>
+          <p>Intro: {intro}</p>
+          {parse(htmlBody)}
+          {galleryImages.length > 0 && (
+            <>
+              <h4>Gallery Images</h4>
+              <Carousel>
+                <CarouselContent>
+                  {galleryImages.map((image) => (
+                    <CarouselItem>
+                      <div key={image.id}>
+                        <img src={`${image.image.url}`} alt={image.caption} />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </>
+          )}
+        </div>
+      )
+  );
 }
 
 export default function PageTest() {
-  // Make a request for a user with a given ID
-  const [data, setData] = useState<Data | null>(null);
-
-  // This method fetches the records from the database.
-  useEffect(() => {
-    axios
-      .get(
-        apiUrl +
-          "/api/v2/pages/?type=blog.BlogPage&fields=title,date,intro,html_body,gallery_images"
-      )
-      
-      .then(function (response) {
-        // handle success
-        console.log(response);
-        setData(response.data);
-      });
-  }, []);
-
   return (
-    <>
+    <div className="flex justify-center">
       <article className="prose lg:prose-xl">
         <h1>Hello!</h1>
-        {data ? (
-          <div>
-            <h1>Total Count: {data.meta.total_count}</h1>
-            {data.items.map((item) => (
-              <div key={item.id}>
-                <h3>{item.title}</h3>
-                <p>Date: {item.date}</p>
-                <p>Intro: {item.intro}</p>
-                {parse(item.html_body)}
-                {item.gallery_images.length > 0 && (
-                  <>
-                  <h4>Gallery Images</h4>
-                  <div>
-                    {item.gallery_images.map((image) => (
-                      <div key={image.id}>
-                        <img
-                          src={`${apiUrl}${image.image.meta.download_url}`}
-                          alt={image.caption}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  </>
-
-
-                )}
-
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+        <DisplayPages />
       </article>
-    </>
+    </div>
   );
 }

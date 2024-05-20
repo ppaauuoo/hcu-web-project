@@ -1,19 +1,13 @@
 from django.db import models
 
-# Add these:
-from grapple.models import GraphQLString
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
-
-from modelcluster.fields import ParentalKey
-
 from wagtail.models import Page, Orderable
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.search import index
-from django.db import models
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
@@ -22,13 +16,20 @@ from wagtail.api import APIField
 from wagtail.rich_text import expand_db_html
 from wagtail_headless_preview.models import HeadlessMixin
 
+from grapple.models import GraphQLString,GraphQLForeignKey,GraphQLCollection,GraphQLImage
+from modelcluster.fields import ParentalKey
 from bs4 import BeautifulSoup
 
 API_URL = 'http://localhost:8000'
 
+
+
 class BlogIndexPage(HeadlessMixin,Page):
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [FieldPanel("intro")]
+    graphql_fields = [
+        GraphQLString("intro"),
+    ]
 
 class BlogPage(HeadlessMixin,Page):
     date = models.DateField("Post date")
@@ -53,6 +54,9 @@ class BlogPage(HeadlessMixin,Page):
     def html_body(self):
         return self.get_api_representation(self.body)
 
+    def get_gallery_images(self):
+        return self.gallery_images.all()
+    
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("body"),
@@ -76,7 +80,11 @@ class BlogPage(HeadlessMixin,Page):
         GraphQLString("date"),
         GraphQLString("intro"),
         GraphQLString("html_body"),
-        GraphQLString("gallery_images"),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "gallery_images",
+            "blog.BlogPageGalleryImage"
+        ),
     ]
 
 class BlogPageGalleryImage(Orderable):
@@ -99,7 +107,7 @@ class BlogPageGalleryImage(Orderable):
     ]
     
     graphql_fields = [
-        GraphQLString("image"),
+        GraphQLImage("image"),
         GraphQLString("caption"),
     ]
 

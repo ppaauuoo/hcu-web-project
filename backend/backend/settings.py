@@ -15,7 +15,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_URL = 'http://localhost:8000'
 CLIENT_URL = 'http://localhost:5173'
 
 
@@ -33,12 +33,14 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
+    #django apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    #wagtail apps
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -51,15 +53,17 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail',
     'wagtail.api.v2',
+    "wagtail_headless_preview",
+    #third party
     'modelcluster',
     'taggit',
     'rest_framework',
     'corsheaders',
-    "accounts",
-    "blog",
-    "wagtail_headless_preview",
     "grapple",
     "graphene_django",
+    #my apps
+    "accounts",
+    "blog",
 ]
 
 MIDDLEWARE = [
@@ -151,7 +155,7 @@ MEDIA_URL = '/media/'
 
 # Wagtail
 WAGTAIL_SITE_NAME = 'HCU Content Management System'
-WAGTAILADMIN_BASE_URL = 'http://HCMS.com'
+WAGTAILADMIN_BASE_URL = 'http://localhost:8000/admin'
 
 # WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
 # Default primary key field type
@@ -164,7 +168,7 @@ CORS_ALLOWED_ORIGINS = [
     CLIENT_URL,
 ]
 # CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r"^/api/v2/"
+# CORS_URLS_REGEX = r"^/api/v2/"
 
 
 # Security settings
