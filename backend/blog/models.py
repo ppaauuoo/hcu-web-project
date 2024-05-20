@@ -14,7 +14,6 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
 from wagtail.api import APIField
 from wagtail.rich_text import expand_db_html
-from wagtail_headless_preview.models import HeadlessMixin
 
 from grapple.models import GraphQLString,GraphQLForeignKey,GraphQLCollection,GraphQLImage
 from modelcluster.fields import ParentalKey
@@ -24,14 +23,14 @@ API_URL = 'http://localhost:8000'
 
 
 
-class BlogIndexPage(HeadlessMixin,Page):
+class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [FieldPanel("intro")]
     graphql_fields = [
         GraphQLString("intro"),
     ]
 
-class BlogPage(HeadlessMixin,Page):
+class BlogPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     # body = StreamField([

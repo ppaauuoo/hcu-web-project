@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail',
     'wagtail.api.v2',
-    "wagtail_headless_preview",
     #third party
     'modelcluster',
     'taggit',
@@ -155,7 +154,7 @@ MEDIA_URL = '/media/'
 
 # Wagtail
 WAGTAIL_SITE_NAME = 'HCU Content Management System'
-WAGTAILADMIN_BASE_URL = 'http://localhost:8000/admin'
+WAGTAILADMIN_BASE_URL = 'http://localhost:8000/'
 
 # WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
 # Default primary key field type
@@ -177,15 +176,6 @@ SESSION_COOKIE_SAMESITE = 'Strict'
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_HTTPONLY = True
 
-#preview_wagtail
-WAGTAIL_HEADLESS_PREVIEW = {
-    "CLIENT_URLS": {
-        "default": CLIENT_URL+"/test/",
-    }, # defaults to an empty dict. You must at the very least define the default client URL.
-    "SERVE_BASE_URL": None,  # can be used for HeadlessServeMixin
-    "REDIRECT_ON_PREVIEW": False,  # set to True to redirect to the preview instead of using the Wagtail default mechanism
-    "ENFORCE_TRAILING_SLASH": False,  # set to False in order to disable the trailing slash enforcement
-}
 
 # Grapple config:
 GRAPHENE = {"SCHEMA": "grapple.schema.schema"}

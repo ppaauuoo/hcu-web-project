@@ -3,9 +3,6 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 from django.urls import include, path, re_path
-from django.views.generic.base import TemplateView
-
-from .api import api_router
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
@@ -21,8 +18,8 @@ urlpatterns = [
     
     # path("", TemplateView.as_view(template_name="home.html"), name="home"),
         
-    # path('api/v2/', api_router.urls),
-    # re_path(r'^', include(wagtail_urls)),
+        # path('api/v2/', api_router.urls),
+        # path("", include(wagtail_urls)),
     
     path("api/", include(grapple_urls)),
     path('cms/', include(wagtailadmin_urls)),
