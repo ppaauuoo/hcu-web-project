@@ -86,7 +86,6 @@ export default function PageTest() {
   return (
     <div className="flex justify-center">
       <article className="prose lg:prose-xl">
-        <h1>Hello!</h1>
         <DisplayPages />
       </article>
     </div>
