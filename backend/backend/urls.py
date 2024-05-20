@@ -11,6 +11,8 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from grapple import urls as grapple_urls
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     
@@ -19,10 +21,12 @@ urlpatterns = [
     
     # path("", TemplateView.as_view(template_name="home.html"), name="home"),
         
-    path('api/v2/', api_router.urls),
+    # path('api/v2/', api_router.urls),
+    # re_path(r'^', include(wagtail_urls)),
     
+    path("api/", include(grapple_urls)),
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('pages/', include(wagtail_urls)),
-    re_path(r'^', include(wagtail_urls)),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,7 @@
 from django.db import models
 
 # Add these:
+from grapple.models import GraphQLString
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
@@ -71,6 +72,13 @@ class BlogPage(HeadlessMixin,Page):
         APIField('gallery_images'),
     ]
 
+    graphql_fields = [
+        GraphQLString("date"),
+        GraphQLString("intro"),
+        GraphQLString("html_body"),
+        GraphQLString("gallery_images"),
+    ]
+
 class BlogPageGalleryImage(Orderable):
     page = ParentalKey(
         BlogPage, on_delete=models.CASCADE, related_name="gallery_images"
@@ -88,6 +96,11 @@ class BlogPageGalleryImage(Orderable):
     api_fields = [
         APIField('image'),
         APIField('caption'),
+    ]
+    
+    graphql_fields = [
+        GraphQLString("image"),
+        GraphQLString("caption"),
     ]
 
 

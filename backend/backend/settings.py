@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     "accounts",
     "blog",
     "wagtail_headless_preview",
+    "grapple",
+    "graphene_django",
 ]
 
 MIDDLEWARE = [
@@ -171,7 +173,7 @@ SESSION_COOKIE_SAMESITE = 'Strict'
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_HTTPONLY = True
 
-#preview
+#preview_wagtail
 WAGTAIL_HEADLESS_PREVIEW = {
     "CLIENT_URLS": {
         "default": CLIENT_URL+"/test/",
@@ -181,6 +183,12 @@ WAGTAIL_HEADLESS_PREVIEW = {
     "ENFORCE_TRAILING_SLASH": False,  # set to False in order to disable the trailing slash enforcement
 }
 
+# Grapple config:
+GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
+GRAPPLE = {
+    "APPS": ["blog"],
+}
+
 # For production, set this line to True
 # CSRF_COOKIE_HTTPONLY = True
 
@@ -188,3 +196,4 @@ WAGTAIL_HEADLESS_PREVIEW = {
 # STATICFILES_DIRS = (
 #     BASE_DIR.joinpath('frontend', 'dist'),
 # )
+
