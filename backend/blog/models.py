@@ -1,7 +1,6 @@
 from django.db import models
 
-
-from wagtail.fields import RichTextField,StreamField
+from wagtail.fields import RichTextField
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.search import index
@@ -9,14 +8,14 @@ from wagtail.models import Page, Orderable
 from wagtail.fields import RichTextField
 from wagtail.rich_text import expand_db_html
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from wagtail import blocks
-from wagtail.images.blocks import ImageChooserBlock
-from grapple.models import GraphQLString,GraphQLForeignKey,GraphQLCollection,GraphQLImage,GraphQLStreamfield
+
+from grapple.models import GraphQLString,GraphQLForeignKey,GraphQLCollection,GraphQLImage,GraphQLTag
 from modelcluster.fields import ParentalKey
 from bs4 import BeautifulSoup
 from taggit.models import TaggedItemBase
 from django import forms
 from wagtail.snippets.models import register_snippet
+
 API_URL = 'http://localhost:8000'
 
 @register_snippet
@@ -30,6 +29,11 @@ class Author(models.Model):
     panels = [
         FieldPanel('name'),
         FieldPanel('author_image'),
+    ]
+
+    graphql_fields = [
+        GraphQLString("name"),
+        GraphQLImage("author_image"),
     ]
 
     def __str__(self):
@@ -57,7 +61,6 @@ class BlogPageTag(TaggedItemBase):
         related_name='tagged_items',
         on_delete=models.CASCADE
     )
-
 
 class BlogTagIndexPage(Page):
 
@@ -94,13 +97,11 @@ class BlogPage(Page):
     @property
     def html_body(self):
         return self.get_api_representation(self.body)
-
-    def get_gallery_images(self):
-        return self.gallery_images.all()
     
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("body"),
+        index.SearchField("tags"),
     ]
 
     content_panels = Page.content_panels + [
@@ -116,10 +117,15 @@ class BlogPage(Page):
         InlinePanel('gallery_images', label="Gallery images"),
     ]
     
+
     graphql_fields = [
+        GraphQLTag("tags"),
         GraphQLString("date"),
-        GraphQLString("authors"),
-        GraphQLString("tags"),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "authors",
+            "blog.Author"
+        ),
         GraphQLString("intro"),
         GraphQLString("html_body"),
         GraphQLCollection(
