@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './components/RootLayout';
 import About from './pages/About';
 import Home from './pages/Home';
-import { ImgTest, PageTest } from './pages/Test';
+import { ImgTest, IndexTest, PageTest } from './pages/Test';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,8 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/test/img", element: <ImgTest /> },
-  { path: "/test/page", element: <PageTest /> },
+  { path: "/test/page", element: <IndexTest /> },
+  { path: "/test/page/:id", element: <PageTest/>},
 ]);
 
 

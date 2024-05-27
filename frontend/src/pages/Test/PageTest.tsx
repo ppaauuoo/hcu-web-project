@@ -8,6 +8,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
+import { useParams } from "react-router-dom";
 interface Page {
   id: string;
   title: string;
@@ -23,9 +24,10 @@ interface Data {
   pages: Page[];
 }
 
-const GET_PAGES = gql`
-  query getPages {
-    pages {
+
+const GET_PAGE_BY_ID = gql`
+  query getPages($id: ID!) {
+    pages(id: $id) {
       ... on BlogPage {
         tags {
           name
@@ -55,9 +57,16 @@ const GET_PAGES = gql`
   }
 `;
 
-function DisplayPages() {
-  const { loading, error, data } = useQuery<Data>(GET_PAGES);
+type IdParams = {
+  id: number;
+};
 
+
+function DisplayPage({ id } : IdParams) {
+  const { loading, error, data } = useQuery<Data>(GET_PAGE_BY_ID, {
+    variables: { id },
+  });
+  
   if (loading) return <p>Loading...</p>;
 
   if (error) return <p>Error : {error.message}</p>;
@@ -135,10 +144,18 @@ function DisplayPages() {
 }
 
 export default function PageTest() {
+  const params = useParams();
+  console.log(params.id)
+  
   return (
     <div className="flex justify-center">
       <article className="prose lg:prose-xl">
-        <DisplayPages />
+        {params?.id?(
+          <DisplayPage id={parseInt(params.id)} />
+        ):(
+          <h1>Error</h1>
+        )}
+        
       </article>
     </div>
   );

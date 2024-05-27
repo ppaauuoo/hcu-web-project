@@ -32,7 +32,7 @@ API_URL = "http://localhost:8000"
 
 
 class Utils():
-    def get_api_representation(self, value):
+    def get_api_representation(value):
         soup = BeautifulSoup(expand_db_html(value), "html.parser")
         for img in soup.find_all("img"):
             src = img["src"]
