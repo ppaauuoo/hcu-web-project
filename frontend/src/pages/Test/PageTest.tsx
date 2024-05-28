@@ -8,7 +8,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 interface Page {
   id: string;
   title: string;
@@ -23,7 +23,6 @@ interface Page {
 interface Data {
   pages: Page[];
 }
-
 
 const GET_PAGE_BY_ID = gql`
   query getPages($id: ID!) {
@@ -61,12 +60,11 @@ type IdParams = {
   id: number;
 };
 
-
-function DisplayPage({ id } : IdParams) {
+function DisplayPage({ id }: IdParams) {
   const { loading, error, data } = useQuery<Data>(GET_PAGE_BY_ID, {
     variables: { id },
   });
-  
+
   if (loading) return <p>Loading...</p>;
 
   if (error) return <p>Error : {error.message}</p>;
@@ -76,28 +74,25 @@ function DisplayPage({ id } : IdParams) {
   return data.pages.map(
     ({ title, date, intro, htmlBody, galleryImages, authors, tags }) =>
       title && (
-        <article>
+        <article className="py-20">
           <h1>{title}</h1>
           <p className="meta">Date: {date}</p>
 
           {/* Posted by */}
           {authors.length > 0 && (
-            <div>
-              <h3>Posted by:</h3>
-              <ul>
-                {authors.map((author) => (
-                  <li key={author.id} style={{ display: "inline" }}>
-                    <img
-                      src={`${author.authorImage.url}`}
-                      alt={author.name}
-                      width={100}
-                      height={200}
-                      style={{ verticalAlign: "left" }}
-                    />
-                    Name: {author.name}
-                  </li>
-                ))}
-              </ul>
+            <div className="flex flex-row gap-5">
+              <p>Posted by:</p>
+              {authors.map((author) => (
+                <li key={author.id} className="inline-block content-center">
+                  <img
+                    src={`${author.authorImage.url}`}
+                    alt={author.name}
+                    width={75}
+                    height={75}
+                  />
+                  <p className="flex justify-center">{author.name}</p>
+                </li>
+              ))}
             </div>
           )}
 
@@ -129,15 +124,17 @@ function DisplayPage({ id } : IdParams) {
           {/* Tags */}
           {tags.length > 0 && (
             <div className="tags">
-              <h3>Tags</h3>
+              <span>tags : </span>
               {tags.map((tag) => (
                 <a key={`${tag.name}`} href={`/tags?tag=${tag.name}`}>
                   <button type="button">{tag.name}</button>
+                  <span>,</span>
                 </a>
               ))}
+              <span>...</span>
             </div>
           )}
-          <Separator className="my-20"/>
+          <Separator className="my-20" />
         </article>
       )
   );
@@ -145,17 +142,13 @@ function DisplayPage({ id } : IdParams) {
 
 export default function PageTest() {
   const params = useParams();
-  console.log(params.id)
-  
+  console.log(params.id);
+
   return (
     <div className="flex justify-center">
       <article className="prose lg:prose-xl">
-        {params?.id?(
-          <DisplayPage id={parseInt(params.id)} />
-        ):(
-          <h1>Error</h1>
-        )}
-        
+        {params?.id ? <DisplayPage id={parseInt(params.id)} /> : <h1>Error</h1>}
+        <Link to='../test/page'>Back</Link>
       </article>
     </div>
   );

@@ -67,27 +67,27 @@ function DisplayPages() {
   if (!data) return <p>Error : No Data</p>;
 
   return data.pages.map(
-    ({id, title, intro, tags }) =>
-        
+    ({ id, title, tags }) =>
       title && (
         <article key={id}>
           <Link to={`${id}`}>{title}</Link>
 
-          <h2 className="intro">{intro}</h2>
-
+          {/* <h2 className="intro">{intro}</h2> */}
 
           {/* Tags */}
           {tags.length > 0 && (
             <div className="tags">
-              <h3>Tags</h3>
+              <span>tags: </span>
               {tags.map((tag) => (
                 <a key={`${tag.name}`} href={`/tags?tag=${tag.name}`}>
                   <button type="button">{tag.name}</button>
+                  <span>,</span>
                 </a>
               ))}
+              <span>...</span>
             </div>
           )}
-          <Separator className="my-20"/>
+          <Separator className="my-4" />
         </article>
       )
   );
@@ -95,8 +95,9 @@ function DisplayPages() {
 
 export default function IndexTest() {
   return (
-    <div className="flex justify-center">
+    <div className="flex p-20">
       <article className="prose lg:prose-xl">
+        <h3>Test Archives</h3>
         <DisplayPages />
       </article>
     </div>
