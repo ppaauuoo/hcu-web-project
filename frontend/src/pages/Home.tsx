@@ -43,10 +43,14 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <>
-      <div className="max-w-screen h-auto flex justify-center">
-        <img className="object-cover" src="/hero.png"/>
+      <div className="overflow-hidden w-full h-screen flex justify-center">
+        <img
+          className="object-cover w-full h-full"
+          src="/hero.png"
+          alt="Hero Image"
+        />
       </div>
-      
+
       <div className="flex-col">
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
