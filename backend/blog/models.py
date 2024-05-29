@@ -1,5 +1,6 @@
 from django.db import models
 
+import graphene
 from wagtail.fields import RichTextField, StreamField
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
@@ -25,7 +26,7 @@ from bs4 import BeautifulSoup
 from taggit.models import TaggedItemBase
 from django import forms
 from wagtail.snippets.models import register_snippet
-from grapple.helpers import register_streamfield_block
+from grapple.helpers import register_streamfield_block,register_query_field
 
 API_URL = "http://localhost:8000"
 
@@ -68,6 +69,7 @@ class Author(models.Model):
         verbose_name_plural = "Authors"
 
 
+
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [FieldPanel("intro")]
@@ -104,6 +106,9 @@ class BlogTagIndexPage(Page):
         return context
 
 
+@register_query_field(
+    "blogpage"
+)
 class BlogPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)

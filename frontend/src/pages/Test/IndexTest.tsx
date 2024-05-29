@@ -21,37 +21,35 @@ interface Page {
 }
 
 interface Data {
-  pages: Page[];
+  blogpages: Page[];
 }
 
 const GET_PAGES = gql`
-  query getPages {
-    pages {
-      ... on BlogPage {
-        tags {
-          name
+  query getBlogPage {
+    blogpages {
+      tags {
+        name
+      }
+      id
+      title
+      date
+      intro
+      htmlBody
+      galleryImages {
+        image {
+          url
+          width
+          height
         }
-        id
-        title
-        date
-        intro
-        htmlBody
-        galleryImages {
-          image {
-            url
-            width
-            height
-          }
-          caption
+        caption
+      }
+      authors {
+        authorImage {
+          url
+          width
+          height
         }
-        authors {
-          authorImage {
-            url
-            width
-            height
-          }
-          name
-        }
+        name
       }
     }
   }
@@ -65,8 +63,8 @@ function DisplayPages() {
   if (error) return <p>Error : {error.message}</p>;
 
   if (!data) return <p>Error : No Data</p>;
-
-  return data.pages.map(
+  
+  return data.blogpages.map(
     ({ id, title, tags }) =>
       title && (
         <article key={id}>
@@ -79,10 +77,10 @@ function DisplayPages() {
             <div className="tags">
               <span>tags: </span>
               {tags.map((tag) => (
-                <a key={`${tag.name}`} href={`/tags?tag=${tag.name}`}>
+                <Link key={`${tag.name}`} to={`./tag/${tag.name}`}>
                   <button type="button">{tag.name}</button>
                   <span>,</span>
-                </a>
+                </Link>
               ))}
               <span>...</span>
             </div>
