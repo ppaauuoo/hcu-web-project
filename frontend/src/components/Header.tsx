@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -14,6 +14,7 @@ export default function Header() {
     const isScrolled = window.scrollY > 0;
     if (isScrolled !== scrolled) {
       setScrolled(isScrolled);
+      
     }
   };
 
@@ -25,8 +26,8 @@ export default function Header() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full flex items-center justify-between md:justify-center bg-transparent transition duration-500 ease-in-out z-50 ${
-          scrolled ? "bg-black" : ""
+        className={`fixed top-0 left-0 w-full flex items-center justify-between md:justify-center transition duration-500 ease-in-out z-50 ${
+          scrolled ? "bg-black" : "bg-transparent "
         }`}
       >
         <img
