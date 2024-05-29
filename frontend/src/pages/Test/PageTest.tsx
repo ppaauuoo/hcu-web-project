@@ -142,13 +142,12 @@ function DisplayPage({ id }: IdParams) {
 
 export default function PageTest() {
   const params = useParams();
-  console.log(params.id);
-
+  
   return (
     <div className="flex justify-center">
       <article className="prose lg:prose-xl">
         {params?.id ? <DisplayPage id={parseInt(params.id)} /> : <h1>Error</h1>}
-        <Link to='../test/page'>Back</Link>
+        <Link to='../..' relative="path">Back</Link>
       </article>
     </div>
   );

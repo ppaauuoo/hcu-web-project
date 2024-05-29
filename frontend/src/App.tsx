@@ -2,26 +2,31 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './components/RootLayout';
 import About from './pages/About';
 import Home from './pages/Home';
-import { ImgTest, IndexTest, PageTest } from './pages/Test';
+import { DetailTest, IndexTest, PageTest } from './pages/Test';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout/>,
     children: [
-      { path: "/", element: <Home /> },
+      { index: true, element: <Home /> },
       { path: "/about", element: <About /> },
       // { path: "/services", element: <Services /> },
 
     ],
   },
-  { path: "/test/img", element: <ImgTest /> },
-  { path: "/test/page", element: <IndexTest /> },
-  { path: "/test/page/:id", element: <PageTest/>},
+  { path: "/test",
+    children: [
+      { index: true, element: <IndexTest />},
+      { path: "page/:id", element: <PageTest/>},
+      { path: "detail/:id", element: <DetailTest/>},
+    ] },
+  
 ]);
 
 
-function App() {
+
+export default function App() {
 
   return (
     <>
@@ -30,4 +35,3 @@ function App() {
   )
 }
 
-export default App

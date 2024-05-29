@@ -31,8 +31,8 @@ from grapple.helpers import register_streamfield_block,register_query_field
 API_URL = "http://localhost:8000"
 
 
-
 class Utils():
+    @staticmethod
     def get_api_representation(value):
         soup = BeautifulSoup(expand_db_html(value), "html.parser")
         for img in soup.find_all("img"):
@@ -174,19 +174,17 @@ class BlogPageGalleryImage(Orderable):
         GraphQLString("caption"),
     ]
 
-class HTMLRichTextBlock(blocks.RichTextBlock):
-    def render(self, value, context=None):
-        # Use expand_db_html to convert the database HTML to proper HTML
-        expanded_html = Utils.get_api_representation(value.source)
-        return expanded_html
-
 @register_streamfield_block
 class PersonBlock(blocks.StructBlock):
     firstname = blocks.CharBlock()
     surname = blocks.CharBlock()
     photo = ImageChooserBlock(required=False)
-    biography = HTMLRichTextBlock()
+    biography = blocks.RichTextBlock()
 
+    @property
+    def html_biography(self):
+        return Utils.get_api_representation(self.biography)
+    
     graphql_fields = [
         GraphQLString("firstname"),
         GraphQLString("surname"),
@@ -198,8 +196,11 @@ class PersonBlock(blocks.StructBlock):
 @register_streamfield_block
 class DetailBlock(blocks.StructBlock):
     heading = blocks.CharBlock(form_classname="title")
-    paragraph = HTMLRichTextBlock()
+    paragraph = blocks.RichTextBlock()
 
+    @property
+    def html_paragraph(self):
+        return Utils.get_api_representation(self.paragraph)
 
     graphql_fields = [
         GraphQLString("heading"),
@@ -207,7 +208,9 @@ class DetailBlock(blocks.StructBlock):
        
     ]
 
-
+@register_query_field(
+    "detailpage"
+)
 class DetailBlog(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
