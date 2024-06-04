@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -25,18 +26,93 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
+import Autoplay from "embla-carousel-autoplay";
+
 import { Link } from "react-router-dom";
+import * as React from "react";
+
+
+function HeroButton() {
+  return (
+    <Button className="p-0 h-48 rounded-none  ">
+      {/* <img
+        className="object-cover w-full h-full"
+        src="/hero.png"
+        alt="Hero Image"
+      /> */}
+      <div className="p-5 flex text-4xl w-full h-full items-end justify-start hover:opacity-50" style={{ backgroundImage: 'url(./hero.png)' }}>Dog Ball</div>
+
+
+    </Button>
+
+  )
+
+}
+
 
 export default function Home() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  )
+
   return (
     <>
       <div className="overflow-hidden w-full h-screen flex justify-center">
-        <img
+        {/* <img
           className="object-cover w-full h-full"
           src="/hero.png"
           alt="Hero Image"
-        />
+        /> */}
+
+
+        <Carousel
+
+          plugins={[plugin.current]}
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
+        >
+          <CarouselContent
+          >
+            {Array.from({ length: 5 }).map((_, index) => (
+              <CarouselItem key={index}>
+                <Card>
+                  <CardContent className="p-0 m-0 w-full h-screen">
+                    <img
+                      className="object-cover w-full h-full"
+                      src="/hero.png"
+                      alt="Hero Image"
+                    />
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+
       </div>
+
+
+      <div className=" bg-slate-400 p-5 min-h-screen">
+        <div className="">
+          <div className="grid grid-cols-2 md:grid-cols-3 justify-items-stretch px-4 md:px-16 gap-0">
+            <HeroButton />
+            <HeroButton />
+            <HeroButton />
+          </div>
+        </div>
+      </div>
+
 
       <div className="flex-col">
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
