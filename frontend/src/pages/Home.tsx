@@ -66,7 +66,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="overflow-hidden w-full h-screen flex justify-center">
+      <div className="overflow-hidden absolute w-full h-screen flex justify-center z-0">
         {/* <img
           className="object-cover w-full h-full"
           src="/hero.png"
@@ -103,13 +103,19 @@ export default function Home() {
       </div>
 
 
-      <div className=" bg-slate-400 p-5 min-h-screen">
-        <div className="">
-          <div className="grid grid-cols-2 md:grid-cols-3 justify-items-stretch px-4 md:px-16 gap-0">
-            <HeroButton />
-            <HeroButton />
-            <HeroButton />
-          </div>
+      <div className="relative min-h-screen">
+        <div className=" h-96"></div>
+        <div className=" h-96"></div>
+        <div className=" h-72"></div>
+        {/* <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-stretch px-4 md:px-16 gap-0 z-20">
+          <div></div>
+          <div></div>
+          <HeroButton />
+        </div> */}
+        <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-stretch px-4 md:px-16 gap-0 z-20">
+          <HeroButton />
+          <HeroButton />
+          <HeroButton />
         </div>
       </div>
 
