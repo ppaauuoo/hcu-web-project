@@ -115,7 +115,6 @@ class BlogPage(Page):
     body = RichTextField(blank=True)
     authors = ParentalManyToManyField("blog.Author", blank=True)
 
-    # Add this:
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
 
     @property
@@ -154,6 +153,24 @@ class BlogPage(Page):
         ),
     ]
 
+
+class DetailPageTag(TaggedItemBase):
+    content_object = ParentalKey(
+        "DetailBlog", related_name="tagged_items", on_delete=models.CASCADE
+    )
+
+class DetailTagIndexPage(Page):
+
+    def get_context(self, request):
+
+        # Filter by tag
+        tag = request.GET.get("tag")
+        detailpages = DetailBlog.objects.filter(tags__name=tag)
+
+        # Update template context
+        context = super().get_context(request)
+        context["detailpages"] = detailpages
+        return context
 
 class BlogPageGalleryImage(Orderable):
     page = ParentalKey(
@@ -221,16 +238,19 @@ class DetailBlog(Page):
             ('image', ImageChooserBlock()),
         ]
     )
+    tags = ClusterTaggableManager(through=DetailPageTag, blank=True)
 
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("body"),
+        index.SearchField("tags"),
     ]
 
     content_panels = Page.content_panels + [
         FieldPanel("intro"),
         FieldPanel("date"),
         FieldPanel("body"),
+        FieldPanel("tags"),
     ]
 
     graphql_fields = [
@@ -238,3 +258,5 @@ class DetailBlog(Page):
         GraphQLString("intro"),
         GraphQLStreamfield("body"),
     ]
+
+

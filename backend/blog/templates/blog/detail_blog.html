@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% include_block page.body %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+    <p class="meta">{{ page.date }}</p>
+
+
+    <div class="intro">{{ page.intro }}</div>
+
+    <article>
+        {% for block in page.body %}
+
+            {% if block.block_type == 'person' %}
+            <div class="person">
+                {% image block.value.photo width-400 %}
+                <h2>{{ block.value.firstname }} {{ block.value.surname }}</h2>
+                {{ block.value.biography }}
+            </div>
+            {% elif block.block_type == 'detail' %}
+                <h1>{{ block.value.heading }}</h1>
+                <p>{{ block.value.paragraph }}</p>
+            {% endif %}
+        {% endfor %}
+    </article>
+
+    <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
+
+    {% with tags=page.tags.all %}
+    {% if tags %}
+        <div class="tags">
+            <h3>Tags</h3>
+            {% for tag in tags %}
+                <a href="{% slugurl 'detail-tags' %}?tag={{ tag }}"><button type="button">{{ tag }}</button></a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+{% endblock %}
