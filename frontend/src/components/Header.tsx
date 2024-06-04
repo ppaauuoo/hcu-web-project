@@ -32,7 +32,7 @@ export default function Header() {
       >
         <img
           className="h-10 w-10 m-1 md:mr-20 lg:mr-40"
-          src="/images.jpg"
+          src="/LOGO_Y.png"
           alt="image description"
         />
         {/* navbar */}

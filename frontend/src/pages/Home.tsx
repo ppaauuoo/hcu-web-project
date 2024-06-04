@@ -82,7 +82,7 @@ export default function Home() {
                   <CardContent className="p-0 m-0 w-full h-screen">
                     <img
                       className="object-cover w-full h-full"
-                      src="/hero.png"
+                      src="/bg2.png"
                       alt="Hero Image"
                     />
                   </CardContent>
@@ -108,7 +108,7 @@ export default function Home() {
           <HeroButton />
         </div> */}
         <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-stretch px-4 md:px-16 gap-0 z-20">
-          <HeroButton bgimg="/hero.png" context="DogBall" />
+          <HeroButton bgimg="/rd.JPG" context="DogBall" />
           <HeroButton bgimg="/B1.png" context="DogBall2" />
           <HeroButton bgimg="/B2.png" context="DogBall3" />
         </div>
