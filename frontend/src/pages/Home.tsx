@@ -41,15 +41,16 @@ import { Link } from "react-router-dom";
 import * as React from "react";
 
 
-function HeroButton() {
+function HeroButton({ bgimg, context }: { bgimg: string, context: string }) {
   return (
     <Button className="p-0 h-48 rounded-none  ">
-      {/* <img
-        className="object-cover w-full h-full"
-        src="/hero.png"
-        alt="Hero Image"
-      /> */}
-      <div className="p-5 flex text-4xl w-full h-full items-end justify-start hover:opacity-50" style={{ backgroundImage: 'url(./hero.png)' }}>Dog Ball</div>
+
+      <div className="p-5 flex  w-full h-full items-end justify-start hover:opacity-50 " style={{ backgroundImage: `url(${bgimg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+        <p className="text-4xl font-bold">
+          {context}
+        </p>
+
+      </div>
 
 
     </Button>
@@ -67,13 +68,6 @@ export default function Home() {
   return (
     <>
       <div className="overflow-hidden absolute w-full h-screen flex justify-center z-0">
-        {/* <img
-          className="object-cover w-full h-full"
-          src="/hero.png"
-          alt="Hero Image"
-        /> */}
-
-
         <Carousel
 
           plugins={[plugin.current]}
@@ -104,80 +98,25 @@ export default function Home() {
 
 
       <div className="relative min-h-screen">
-        <div className=" h-96"></div>
-        <div className=" h-96"></div>
-        <div className=" h-72"></div>
+        <div className=" h-96 p-96 "></div>
+        <div className=" h-72 "></div>
+        {/* <div className=" h-96"></div>
+        <div className=" h-72"></div> */}
         {/* <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-stretch px-4 md:px-16 gap-0 z-20">
           <div></div>
           <div></div>
           <HeroButton />
         </div> */}
         <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-stretch px-4 md:px-16 gap-0 z-20">
-          <HeroButton />
-          <HeroButton />
-          <HeroButton />
+          <HeroButton bgimg="/hero.png" context="DogBall" />
+          <HeroButton bgimg="/B1.png" context="DogBall2" />
+          <HeroButton bgimg="/B2.png" context="DogBall3" />
         </div>
       </div>
 
 
       <div className="flex-col">
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-            <Card x-chunk="dashboard-01-chunk-0">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Total Revenue
-                </CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">$45,231.89</div>
-                <p className="text-xs text-muted-foreground">
-                  +20.1% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card x-chunk="dashboard-01-chunk-1">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Subscriptions
-                </CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+2350</div>
-                <p className="text-xs text-muted-foreground">
-                  +180.1% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card x-chunk="dashboard-01-chunk-2">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                <CreditCard className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+12,234</div>
-                <p className="text-xs text-muted-foreground">
-                  +19% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card x-chunk="dashboard-01-chunk-3">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Active Now
-                </CardTitle>
-                <Activity className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+573</div>
-                <p className="text-xs text-muted-foreground">
-                  +201 since last hour
-                </p>
-              </CardContent>
-            </Card>
-          </div>
           <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
             <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
               <CardHeader className="flex flex-row items-center">
