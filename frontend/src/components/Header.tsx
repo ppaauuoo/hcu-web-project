@@ -14,7 +14,7 @@ export default function Header() {
     const isScrolled = window.scrollY > 0;
     if (isScrolled !== scrolled) {
       setScrolled(isScrolled);
-      
+
     }
   };
 
@@ -26,17 +26,19 @@ export default function Header() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full flex items-center justify-between md:justify-center transition duration-500 ease-in-out z-50 ${
-          scrolled ? "bg-black" : "bg-transparent "
-        }`}
+        className={`fixed top-0 left-0 w-screen flex items-center justify-between md:justify-center transition duration-500 ease-in-out z-50 ${scrolled ? "bg-black" : "bg-transparent "
+          }`}
       >
-        <img
-          className="h-10 w-10 m-1 md:mr-20 lg:mr-40"
-          src="/LOGO_Y.png"
-          alt="image description"
-        />
+        <Link to="">
+          <img
+            className="h-10 w-10 m-1 md:mr-20 lg:mr-40"
+            src="/LOGO_Y.png"
+            alt="image description"
+          />
+        </Link>
+
         {/* navbar */}
-        <div className="hidden flex-col gap-6 text-lgfont-medium md:flex md:flex-row md:items-center md:gap-4 md:text-sm lg:gap-6">
+        <div className="hidden flex-col gap-6 text-lgfont-medium md:flex md:flex-row md:items-center md:gap-4 md:text-xl lg:gap-6">
           <Link
             to="index.tsx"
             className="flex  items-center gap-2 text-lg font-semibold md:text-base"
