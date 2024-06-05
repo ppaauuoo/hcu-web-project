@@ -1,5 +1,6 @@
 import BlogIndex from "./BlogIndex";
 import DetailIndex from "./DetailIndex";
+import PersonnelIndex from "./PersonnelIndex";
 
 
 
@@ -11,6 +12,8 @@ export default function IndexTest() {
         <BlogIndex/>
         <h3>Test Details</h3>
         <DetailIndex/>
+        <h3>Test Personnels</h3>
+        <PersonnelIndex/>
       </article>
     </div>
   );
