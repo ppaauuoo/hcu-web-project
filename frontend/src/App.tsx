@@ -19,7 +19,10 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <IndexTest />},
       { path: "page/:id", element: <PageTest/>},
+      { path: "the-archives/:id", element: <PageTest/>},
+      { path: "hcu-blog/:id", element: <PageTest/>},
       { path: "detail/:id", element: <DetailTest/>},
+      { path: "personnel/:id", element: <DetailTest/>},
     ] },
   
 ]);

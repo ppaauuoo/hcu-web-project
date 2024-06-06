@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 interface Page {
   id: string;
   title: string;
+  parent: {slug: string};
 }
 
 interface Data {
@@ -25,10 +26,16 @@ const SEARCH_PAGES = gql`
       ... on BlogPage {
         id
         title
+        parent {
+          slug
+        }
       }
       ... on DetailBlog {
         id
         title
+        parent {
+          slug
+        }
       }
     }
   }
@@ -50,10 +57,10 @@ function DisplayResults({ query }: { query: string }) {
   if (!data.search) return <p>Error : No Data</p>;
 
   return data.search.length ? (
-    data.search.map(({ id, title }) => (
+    data.search.map(({ id, title, parent }) => (
       <>
         <p>
-          <Link className="underline decoration-1" to={`/${id}`}>
+          <Link className="underline decoration-1" to={`./${parent.slug}/${id}`}>
             {title}
           </Link>
         </p>
@@ -80,7 +87,7 @@ export default function SearchBar() {
         placeholder="Search..."
         onValueChange={handleValueChange}
       />
-      <CommandList className="hidden peer-focus:flex pt-5">
+      <CommandList className="peer-focus:flex pt-5">
         <DisplayResults query={inputValue} />
       </CommandList>
     </Command>
