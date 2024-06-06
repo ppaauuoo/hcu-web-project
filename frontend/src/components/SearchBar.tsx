@@ -20,8 +20,8 @@ interface Data {
 }
 
 const SEARCH_PAGES = gql`
-  query searchPage {
-    search(query: "อาจารย์") {
+  query searchPage($query: String!) {
+    search(query: $query) {
       ... on BlogPage {
         id
         title
@@ -38,23 +38,29 @@ function DisplayResults({ query }: { query: string }) {
   const { loading, error, data } = useQuery<Data>(SEARCH_PAGES, {
     variables: { query },
   });
-  console.log(query)
 
   if (loading) return <p>Loading...</p>;
+
+  if (!query) return <p className="mute">Please type to search...</p>;
 
   if (error) return <p>Error : {error.message}</p>;
 
   if (!data) return <p>Error : No Data</p>;
 
-  return data.search.map(
-    ({ id, title }) =>
-      title && (
-        <CommandItem>
+  if (!data.search) return <p>Error : No Data</p>;
+
+  return data.search.length ? (
+    data.search.map(({ id, title }) => (
+      <>
+        <p>
           <Link className="underline decoration-1" to={`/${id}`}>
             {title}
           </Link>
-        </CommandItem>
-      )
+        </p>
+      </>
+    ))
+  ) : (
+    <p>No results found.</p>
   );
 }
 
@@ -65,21 +71,16 @@ export default function SearchBar() {
     setInputValue(value);
   };
 
-  useEffect(() =>{
-
-  
-  },[inputValue]);
+  useEffect(() => {}, [inputValue]);
 
   return (
-    <Command className="absolute right-1/4 left-1/4 m-5 rounded-lg border shadow-md z-10 bg-white p-5">
+    <Command className="fixed right-1/4 left-1/4 m-5 p-5 rounded-lg border shadow-md z-10 bg-white ">
       <CommandInput
         className="peer w-full"
         placeholder="Search..."
         onValueChange={handleValueChange}
       />
       <CommandList className="hidden peer-focus:flex pt-5">
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandSeparator />
         <DisplayResults query={inputValue} />
       </CommandList>
     </Command>
