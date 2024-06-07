@@ -77,7 +77,7 @@ export default function Home() {
 
       <div className="relative min-h-screen">
         <div className=" w-screen h-96 py-96 "></div>
-        <div className=" h-72 "></div>
+        <div className=" h-32 "></div>
         {/* <div className=" h-96"></div>
         <div className=" h-72"></div> */}
         {/* <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-stretch px-4 md:px-16 gap-0 z-20">
