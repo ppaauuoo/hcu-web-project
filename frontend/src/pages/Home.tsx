@@ -86,9 +86,9 @@ export default function Home() {
           <HeroButton />
         </div> */}
         <div className=" grid grid-cols-2 md:grid-cols-3  justify-items-stretch px-4 md:px-16 gap-0 z-20">
-          <HeroButton bgimg="/rd.JPG" context="DogBall" />
-          <HeroButton bgimg="/B1.png" context="DogBall2" />
-          <HeroButton bgimg="/B2.png" context="DogBall3" />
+          <HeroButton bgimg="/rd.JPG" context="DogBall" link="/#" />
+          <HeroButton bgimg="/B1.png" context="DogBall2" link="/#" />
+          <HeroButton bgimg="/B2.png" context="DogBall3" link="/#" />
         </div>
       </div>
 
